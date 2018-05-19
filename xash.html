@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 	<head>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -65,16 +66,16 @@
 			outline: none;
 			border-color:#f0B418;
 		  }
-		  
-		  
+
+
 		.loader {
 		  border: 4px solid #f3f3f3;
 		  border-radius: 50%;
 		  border-top: 4px solid #ffa600;
 		  width: 16px;
 		  height: 16px;
-		  -webkit-animation: spin 2s linear infinite; /* Safari */
-		  animation: spin 2s linear infinite;
+		  -webkit-animation: spin 1s linear infinite; /* Safari */
+		  animation: spin 1s linear infinite;
 		}
 
 		/* Safari */
@@ -87,7 +88,7 @@
 		  0% { transform: rotate(0deg); }
 		  100% { transform: rotate(360deg); }
 		}
-		
+
 
 
 		a.glow, a.glow:hover, a.glow:focus
@@ -121,9 +122,9 @@
 			<div style="float:left;" id="status">Downloading...</div>
 			<div id="progress1" style=position:relative;z-index:10;display:none;float:right;width:70%;border-color:#F0B418;border-style:solid;border-width:2px;height:20px><div id=progress style=text-align:center;background-color:#F0B418;border-color:#555555;border-style:solid:border-width:3px;width:50%;height:20px></div></div><br>
 		</div><br></p>
-		
+
 		<div class="loader" id=loader1></div>
-		
+
 		<div style=width:100%><span id='controls'>
 			<a class="glow"><span><input type="checkbox" id="resize">Resize canvas</span></a>
 			<a class="glow"><span><input type="checkbox" id="pointerLock" checked>Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</span></a>
@@ -131,9 +132,9 @@
 		</span></div>
 
 		<textarea id="output" rows="8"></textarea><div  id="asyncDialog" style="float:left"></div>
-		
+
 		<a class="glow"><u><div id=optionsTitle><h1>Game Options</h1></u></div></a>
-		
+
 		<form style=display:none id=fSettings>Select filesystem for settings and saverestore:<br><br>
 			<div id=idbHider style=display:none><input name=a type=radio id=rIndexedDB />IndexedDB (Need exit correctly to save changes)<br></div>
 			<input name=a type=radio id=rLocalStorage />LocalStorage (Sometimes not enough space)<br>
@@ -147,9 +148,9 @@
 			Command-line arguments: <input name=d type=text id=iArgs /><br><br>
 
 			<input type=button onclick="startXash();return false;" value="Launch Xash3D!" />
-			
+
 			<br><hr>
-			
+
 			<div id='linksPlaceholder' style=display:none>Download archives to load locally next time:</div><br>
 		</form>
 
@@ -174,7 +175,7 @@
 		var mfs;
 		var zipSize;
 
-		
+
 		// make BrowserFS to work on ES5 browsers
 		if (!ArrayBuffer['isView']) {
 			ArrayBuffer.isView = function(a) {
@@ -182,7 +183,7 @@
 			};
 
 		}
-		
+
 		showElement('optionsTitle', false);
 
 		function prepareSelects()
@@ -349,7 +350,7 @@
 			e.style.display=show?'block':'none';
 		}
 		Module.setStatus('Downloading...');
-		
+
 
 
 		function startXash()
@@ -435,7 +436,7 @@
 			FS.mkdir('/rodir');
 			FS.mkdir('/xash');
 			try
-			{ 
+			{
 				mfs = new BrowserFS.FileSystem.MountableFileSystem();
 				BrowserFS.initialize(mfs);
 			}

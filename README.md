@@ -10,19 +10,20 @@ And now you can fork the code and make your own changes, without the hassle of d
 # Requirements / recommended specs
 This app runs best in [Mozilla Firefox](https://www.mozilla.org/en-GB/firefox/).
 
-#### _Half-Life recommended specs:_
+#### Half-Life recommended specs:
 
-* **CPU SPEED:** 800 MHz or higher
-* **RAM:** 128 MB or more
+* **CPU SPEED:** 250 MHz or higher
+* **RAM:** 512 MB or more
 * **OS:** Windows 7 or higher
 * **GRAPHICS CARD:** 32 MB+ video card
 
-
+>*(Keep in mind that these are NOT the game's actual minimum specs, they are just what is required to run the game in Firefox 57 and higher. You can run the game in older ESR releases, but Firefox Quantum is recommended for performance.)*
 
 # Changes in the re-upload
 * Cleaned up UI (Added separators, options title, loading spinner and glow effects)
 * Removed unused/test files
 * Completely revamped "intro" page (memory selection screen)
+* Added 404 page, favicon and README
 * Fixed typo for Hazard Course title
 
 # Screenshots

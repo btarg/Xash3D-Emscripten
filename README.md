@@ -27,7 +27,6 @@ This app runs best in [Mozilla Firefox](https://www.mozilla.org/en-GB/firefox/).
 * Fixed typo for Hazard Course title
 
 # Screenshots
-![Uplink menu](https://github.com/iCrazyBlaze/Xash3D-Emscripten/blob/master/web/hlbrowser.png?raw=true)
-![Uplink gameplay](https://github.com/iCrazyBlaze/Xash3D-Emscripten/blob/master/web/hlbrowser2.png?raw=true)
 ![Hazard Course 1](https://github.com/iCrazyBlaze/Xash3D-Emscripten/blob/master/web/hlbrowser3.png?raw=true)
 ![Hazard Course 2](https://github.com/iCrazyBlaze/Xash3D-Emscripten/blob/master/web/hlbrowser4.png?raw=true)
+![Half-Life gameplay](https://github.com/iCrazyBlaze/Xash3D-Emscripten/blob/master/web/hlbrowser5.png?raw=true)

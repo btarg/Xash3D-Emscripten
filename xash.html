@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en-us" manifest="xash.appcache">
+<!DOCTYPE html>
+<html lang="en-us">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -65,9 +65,54 @@
 			outline: none;
 			border-color:#f0B418;
 		  }
+
+
+		.loader {
+		  border: 4px solid #f3f3f3;
+		  border-radius: 50%;
+		  border-top: 4px solid #ffa600;
+		  width: 16px;
+		  height: 16px;
+		  -webkit-animation: spin 2s linear infinite; /* Safari */
+		  animation: spin 2s linear infinite;
+		}
+
+		/* Safari */
+		@-webkit-keyframes spin {
+		  0% { -webkit-transform: rotate(0deg); }
+		  100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+		  0% { transform: rotate(0deg); }
+		  100% { transform: rotate(360deg); }
+		}
+
+
+
+		a.glow, a.glow:hover, a.glow:focus
+		{
+			text-decoration: none;
+			color: #F0B418;
+			text-shadow: none;
+			-webkit-transition: 500ms linear 0s;
+			-moz-transition: 500ms linear 0s;
+			-o-transition: 500ms linear 0s;
+			transition: 500ms linear 0s;
+			outline: 0 none;
+		}
+		a.glow:hover, a.glow:focus
+		{
+			color: #ffa600;
+			text-shadow: -1px 1px 8px #ffa600, 1px -1px 8px #ffa600;
+		}
+		if (document.createElement("detect").style.textShadow === "") {
+			document.getElementsByTagName("html")[0].className += " textshadow";
+		}
+
 		</style>
 	</head>
-	<body onerror=alert(event); bgcolor=#555555 text=#F0B418 link=#aaa000 vlink=#aaa000>
+	<body onerror=alert(event); bgcolor=#555555 text=#F0B418 link=#ffa600 vlink=#ffa600>
 		<div class="emscripten_border">
 			<canvas style="display:none" class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
 		</div>
@@ -77,27 +122,35 @@
 			<div id="progress1" style=position:relative;z-index:10;display:none;float:right;width:70%;border-color:#F0B418;border-style:solid;border-width:2px;height:20px><div id=progress style=text-align:center;background-color:#F0B418;border-color:#555555;border-style:solid:border-width:3px;width:50%;height:20px></div></div><br>
 		</div><br></p>
 
+		<div class="loader" id=loader1></div>
+
 		<div style=width:100%><span id='controls'>
-			<span><input type="checkbox" id="resize">Resize canvas</span>
-			<span><input type="checkbox" id="pointerLock" checked>Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</span>
+			<a class="glow"><span><input type="checkbox" id="resize">Resize canvas</span></a>
+			<a class="glow"><span><input type="checkbox" id="pointerLock" checked>Lock/hide mouse pointer &nbsp;&nbsp;&nbsp;</span></a>
 			<span><input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked, document.getElementById('resize').checked)"></span>
 		</span></div>
 
-
-
 		<textarea id="output" rows="8"></textarea><div  id="asyncDialog" style="float:left"></div>
-		<form style=display:none id=fSettings>Select filesystem for settings and saverestore:<br>
+
+		<a class="glow"><u><div id=optionsTitle><h1>Game Options</h1></u></div></a>
+
+		<form style=display:none id=fSettings>Select filesystem for settings and saverestore:<br><br>
 			<div id=idbHider style=display:none><input name=a type=radio id=rIndexedDB />IndexedDB (Need exit correctly to save changes)<br></div>
 			<input name=a type=radio id=rLocalStorage />LocalStorage (Sometimes not enough space)<br>
-			<input name=a type=radio id=rNone checked=true />None(in RAM)<br>
-			Select game data source:<br>
+			<input name=a type=radio id=rNone checked=true />None(in RAM)<br><br>
+			<hr>
+			Select game data source:<br><br>
 			<div id=pkgHider style=display:none><input name=b type=radio id=rPackage checked=true />Emscripten package from server (cached in IndexedDB if availiable)<select id=selectPkg style=display:none></select><br></div>
 			<div id=zipHider style=display:none><input name=b type=radio id=rZip />ZIP archive from server (slower, but smaller, no IndexedDB cache)<select id=selectZip style=display:none></select><br></div>
-			<input name=b type=radio id=rLocalZip  />Local ZIP file:<input type=file name=c id=iZipFile /><br>
-			Command-line arguments: <input name=d type=text id=iArgs /><br>
+			<input name=b type=radio id=rLocalZip  />Local ZIP file:<input type=file name=c id=iZipFile /><br><br>
+			<hr>
+			Command-line arguments: <input name=d type=text id=iArgs /><br><br>
 
-			<input type=button onclick="startXash();return false;" value="Launch Xash3D" />
-			<div id='linksPlaceholder' style=display:none>Download archives to load locally next time:</div>
+			<input type=button onclick="startXash();return false;" value="Launch Xash3D!" />
+
+			<br><hr>
+
+			<div id='linksPlaceholder' style=display:none>Download archives to load locally next time:</div><br>
 		</form>
 
 		<script type='text/javascript' src='browserfs.min.js'></script>
@@ -117,16 +170,20 @@
 		var mounted = false;
 		var gamedir = 'valve';
 		var moduleCount = 0;
-		var mem = 150;
+		//var mem = 150;
 		var mfs;
 		var zipSize;
+
 
 		// make BrowserFS to work on ES5 browsers
 		if (!ArrayBuffer['isView']) {
 			ArrayBuffer.isView = function(a) {
 				return a !== null && typeof(a) === "object" && a['buffer'] instanceof ArrayBuffer;
 			};
+
 		}
+
+		showElement('optionsTitle', false);
 
 		function prepareSelects()
 		{
@@ -294,8 +351,11 @@
 		Module.setStatus('Downloading...');
 
 
+
 		function startXash()
 		{
+			showElement('loader1', false);
+			showElement('optionsTitle', false);
 			showElement('fSettings', false);
 			setupFS();
 			Module.arguments = document.getElementById('iArgs').value.split(' ');
@@ -375,7 +435,7 @@
 			FS.mkdir('/rodir');
 			FS.mkdir('/xash');
 			try
-			{ 
+			{
 				mfs = new BrowserFS.FileSystem.MountableFileSystem();
 				BrowserFS.initialize(mfs);
 			}
@@ -409,6 +469,8 @@
 			run = haltRun;
 
 			Module.setStatus("Engine downloaded!");
+			showElement('loader1', false);
+			showElement('optionsTitle', true);
 
 			if(window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB)
 				showElement('idbHider', true);
